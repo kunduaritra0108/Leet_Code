@@ -1,0 +1,130 @@
+9. Palindrome Number
+
+Given an integer x, return true if x is a palindrome, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: x = 121
+Output: true
+Explanation: 121 reads as 121 from left to right and from right to left.
+Example 2:
+
+Input: x = -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+Example 3:
+
+Input: x = 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+ 
+
+Constraints:
+
+-231 <= x <= 231 - 1
+ 
+
+Follow up: Could you solve it without converting the integer to a string?
+
+Answer:
+
+🔹 Problem Restatement
+You need to check if an integer 
+𝑥
+ is a palindrome.
+A palindrome reads the same forward and backward.
+
+Example: 
+121
+→
+true
+
+Example: 
+−
+121
+→
+false
+
+Example: 
+10
+→
+false
+
+🔹 Approach 1: Convert to String (Simple)
+python
+def isPalindrome(x: int) -> bool:
+    s = str(x)
+    return s == s[::-1]
+Easy to implement.
+
+But the follow-up asks us to solve without converting to string.
+
+🔹 Approach 2: Reverse Half of the Number (Efficient)
+Instead of reversing the whole number, we reverse only half and compare.
+
+Steps:
+Negative numbers are not palindromes.
+
+Numbers ending in 0 (except 0 itself) are not palindromes.
+
+Reverse the last half of the digits and compare with the first half.
+
+Implementation:
+python
+def isPalindrome(x: int) -> bool:
+    # Negative numbers and multiples of 10 (except 0) are not palindromes
+    if x < 0 or (x % 10 == 0 and x != 0):
+        return False
+    
+    reversed_half = 0
+    while x > reversed_half:
+        reversed_half = reversed_half * 10 + x % 10
+        x //= 10
+    
+    # For even length, x == reversed_half
+    # For odd length, x == reversed_half // 10 (middle digit ignored)
+    return x == reversed_half or x == reversed_half // 10
+🔹 Example Walkthrough
+Input: 
+𝑥
+=
+1221
+
+Iteration 1: reversed_half = 1, x = 122
+
+Iteration 2: reversed_half = 12, x = 12
+
+Stop (x == reversed_half). ✅ Palindrome.
+
+Input: 
+𝑥
+=
+12321
+
+Iteration 1: reversed_half = 1, x = 1232
+
+Iteration 2: reversed_half = 12, x = 123
+
+Iteration 3: reversed_half = 123, x = 12
+
+Stop (x == reversed_half // 10). ✅ Palindrome.
+
+🔹 Complexity
+Time: 
+𝑂
+(
+log
+⁡
+10
+𝑛
+)
+ → depends on number of digits.
+
+Space: 
+𝑂
+(
+1
+)
+ → no extra storage.

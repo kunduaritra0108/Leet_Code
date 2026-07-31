@@ -1,0 +1,97 @@
+1. Two Sum
+
+You are given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+ 
+
+Constraints:
+
+2 <= nums.length <= 104
+-109 <= nums[i] <= 109
+-109 <= target <= 109
+Only one valid answer exists.
+ 
+
+Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity?
+
+Answer:
+
+This is the classic Two Sum problem. Let’s break it down step by step.
+
+🔹 Brute Force Approach (O(n²))
+Loop through each pair of numbers.
+
+Check if they add up to the target.
+
+Return their indices.
+
+python
+def twoSum(nums, target):
+    for i in range(len(nums)):
+        for j in range(i+1, len(nums)):
+            if nums[i] + nums[j] == target:
+                return [i, j]
+✅ Works fine, but inefficient for large arrays since it checks all pairs.
+
+🔹 Optimized Approach (O(n))
+We can do better using a hash map (dictionary).
+
+Idea:
+As we iterate through the array, store each number’s index in a dictionary.
+
+For each number x, check if target - x exists in the dictionary.
+
+If yes, we’ve found the pair.
+
+Implementation:
+python
+def twoSum(nums, target):
+    seen = {}  # dictionary to store number:index
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+🔹 Example Walkthrough
+Input: nums = [2,7,11,15], target = 9
+
+Start with empty dictionary seen = {}
+
+i=0 → num=2 → complement=7 → not in seen → store {2:0}
+
+i=1 → num=7 → complement=2 → found in seen → return [0,1]
+
+Output: [0,1]
+
+🔹 Why is this O(n)?
+Each number is processed once.
+
+Dictionary lookup (in seen) is O(1).
+
+So total time = O(n), space = O(n).
+
+🔹 Key Takeaways
+Brute force: O(n²), simple but slow.
+
+Hash map: O(n), efficient and elegant.
+
+This is the standard solution used in interviews and coding challenges.
